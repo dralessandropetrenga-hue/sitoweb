@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dr. Alessandro Petrenga — Medico Estetico ad Aversa. Specializzato in medicina estetica del viso. You Are Art.">
+    <meta name="keywords" content="medico estetico Aversa, filler labbra, botox, rinofiller, jawline, Dr Petrenga">
+    <title>Dr. Petrenga — You Are Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ==================== RESET & BASE ==================== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0a0a0a;
+            --bg-alt: #111111;
+            --text: #f0ede8;
+            --text-muted: rgba(240, 237, 232, 0.45);
+            --text-secondary: rgba(240, 237, 232, 0.7);
+            --border: rgba(240, 237, 232, 0.1);
+            --white: #ffffff;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; font-weight: 300; line-height: 1.7; }
+
+        h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; letter-spacing: 0.03em; }
+
+        /* ==================== TYPOGRAPHY ==================== */
+        .section-label { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.5rem; display: block; }
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 5%; }
+        section { padding: 8rem 0; }
+        .divider { width: 60px; height: 1px; background: var(--border); margin: 2rem 0; }
+        .divider--center { margin: 2rem auto; }
+
+        /* ==================== ANIMATIONS ==================== */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .fade-in-delay-1 { transition-delay: 0.1s; }
+        .fade-in-delay-2 { transition-delay: 0.2s; }
+        .fade-in-delay-3 { transition-delay: 0.3s; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scrollLine { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        /* ==================== NAVIGATION ==================== */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 2rem 5%; display: flex; align-items: center; justify-content: space-between; transition: all 0.4s ease; }
+        .nav.scrolled { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); padding: 1.2rem 5%; border-bottom: 1px solid var(--border); }
+
+        .nav__logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; }
+        .nav__links { display: flex; gap: 3rem; list-style: none; }
+        .nav__links a { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-secondary); transition: color 0.3s; }
+        .nav__links a:hover { color: var(--white); }
+
+        .nav__cta { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid rgba(240, 237, 232, 0.3); padding: 0.7rem 1.5rem; transition: all 0.3s; }
+        .nav__cta:hover { background: var(--white); color: var(--bg); border-color: var(--white); }
+
+        .nav__hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px; }
+        .nav__hamburger span { width: 22px; height: 1px; background: var(--text); transition: all 0.3s; }
+
+        .nav__mobile { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 3rem; }
+        .nav__mobile.open { display: flex; }
+        .nav__mobile a { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--text); transition: opacity 0.3s; }
+        .nav__mobile a:hover { opacity: 0.6; }
+        .nav__mobile-close { position: absolute; top: 2rem; right: 5%; cursor: pointer; font-size: 1.5rem; color: var(--text-muted); }
+
+        /* ==================== HERO ==================== */
+        .hero { height: 100vh; min-height: 600px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; }
+
+        .hero__face { position: absolute; inset: 0; width: 120%; height: 120%; opacity: 0.06; margin: auto; }
+
+        .hero__content { position: relative; z-index: 2; }
+        .hero__eyebrow { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
+        .hero__title { font-size: clamp(3.5rem, 9vw, 8.5rem); font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); line-height: 1; opacity: 0; animation: fadeUp 1s ease 0.5s forwards; }
+        .hero__line { width: 180px; height: 1px; background: rgba(255,255,255,0.25); margin: 2.5rem auto; opacity: 0; animation: fadeIn 1s ease 0.8s forwards; }
+        .hero__tagline { font-size: 0.62rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.8rem; opacity: 0; animation: fadeUp 1s ease 0.9s forwards; }
+        .hero__subtitle { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4rem; opacity: 0; animation: fadeUp 1s ease 1s forwards; }
+        .hero__cta { display: inline-block; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.35); padding: 1.1rem 2.5rem; transition: all 0.4s; opacity: 0; animation: fadeUp 1s ease 1.1s forwards; }
+        .hero__cta:hover { background: var(--white); color: var(--bg); border-color: var(--white); }
+
+        .hero__scroll { position: absolute; bottom: 3rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; opacity: 0; animation: fadeIn 1s ease 1.5s forwards; }
+        .hero__scroll span { font-size: 0.52rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); }
+        .hero__scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--text-muted), transparent); animation: scrollLine 2s ease-in-out infinite; }
+
+        /* ==================== FILOSOFIA ==================== */
+        .filosofia { background: var(--bg); text-align: center; padding: 10rem 0; }
+        .filosofia__quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 3.2rem); font-style: italic; line-height: 1.3; max-width: 760px; margin: 0 auto 3rem; color: var(--white); }
+        .filosofia__text { font-size: 0.78rem; letter-spacing: 0.08em; line-height: 2; color: var(--text-secondary); max-width: 540px; margin: 0 auto; }
+
+        /* ==================== FACELINE HARMONY ==================== */
+        .faceline { background: var(--bg-alt); }
+        .faceline__header { text-align: center; margin-bottom: 5rem; }
+        .faceline__label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; }
+        .faceline__title { font-size: clamp(2rem, 4vw, 3.2rem); color: var(--white); margin-bottom: 0.5rem; }
+        .faceline__subtitle { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 2rem; }
+        .faceline__text { font-size: 0.78rem; line-height: 2; color: var(--text-secondary); max-width: 620px; margin: 0 auto; }
+
+        .faceline__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; margin-top: 5rem; }
+        .faceline__item { text-align: center; }
+        .faceline__svg { width: 100%; max-width: 180px; height: auto; margin: 0 auto 2rem; color: var(--text); }
+        .faceline__name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--white); margin-bottom: 0.8rem; }
+        .faceline__desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.8; }
+
+        /* ==================== CHI SONO ==================== */
+        .chi-sono { background: var(--bg); }
+        .chi-sono__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; align-items: center; }
+
+        .chi-sono__image { aspect-ratio: 3/4; background: #1a1a1a; position: relative; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+        .chi-sono__image-placeholder { color: var(--text-muted); text-align: center; }
+        .chi-sono__image-placeholder span { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; display: block; margin: 0.5rem 0; }
+
+        .chi-sono__content h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 0.5rem; color: var(--white); }
+        .chi-sono__content h3 { font-size: 0.95rem; font-family: 'Montserrat'; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2.5rem; }
+        .chi-sono__text { font-size: 0.78rem; line-height: 2.2; color: var(--text-secondary); margin-bottom: 1.5rem; }
+
+        .chi-sono__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+        .stat__number { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--white); margin-bottom: 0.3rem; }
+        .stat__label { font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+
+        /* ==================== TRATTAMENTI ==================== */
+        .trattamenti { background: var(--bg-alt); }
+        .trattamenti__header { max-width: 500px; margin-bottom: 5rem; }
+        .trattamenti__header h2 { font-size: clamp(2rem, 4vw, 3.2rem); color: var(--white); margin-bottom: 1.5rem; }
+        .trattamenti__header p { font-size: 0.78rem; line-height: 2; color: var(--text-secondary); }
+
+        .trattamenti__grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--border); border-left: 1px solid var(--border); }
+        .trattamento { padding: 3.5rem 3rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); transition: background 0.4s; }
+        .trattamento:hover { background: rgba(255,255,255,0.02); }
+        .trattamento:nth-child(3n) { border-right: none; }
+        .trattamento:nth-child(n+4) { border-bottom: none; }
+
+        .trattamento__num { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 2rem; }
+        .trattamento__name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--white); margin-bottom: 1rem; line-height: 1.2; }
+        .trattamento__desc { font-size: 0.7rem; line-height: 1.8; color: var(--text-muted); }
+
+        /* ==================== GALLERIA ==================== */
+        .galleria { background: var(--bg); }
+        .galleria__header { text-align: center; margin-bottom: 4rem; }
+        .galleria__header h2 { font-size: clamp(2rem, 4vw, 3.2rem); color: var(--white); }
+
+        .galleria__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .galleria__item { aspect-ratio: 3/4; background: #1a1a1a; position: relative; border: 1px solid var(--border); display: flex; align-items: flex-end; padding: 2rem; cursor: pointer; transition: border-color 0.3s; }
+        .galleria__item:hover { border-color: rgba(240, 237, 232, 0.25); }
+        .galleria__item-label { font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+
+        /* ==================== TESTIMONIANZE ==================== */
+        .testimonianze { background: var(--bg-alt); }
+        .testimonianze__header { text-align: center; margin-bottom: 5rem; }
+        .testimonianze__header h2 { font-size: clamp(2rem, 4vw, 3.2rem); color: var(--white); }
+
+        .testimonianze__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+        .testimonianza { padding: 3rem; border: 1px solid var(--border); }
+        .testimonianza__stars { display: flex; gap: 3px; margin-bottom: 2rem; }
+        .testimonianza__stars span { font-size: 0.65rem; color: var(--text-muted); }
+        .testimonianza__text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 2rem; }
+        .testimonianza__author { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+
+        /* ==================== PRENOTA ==================== */
+        .prenota { background: var(--bg); text-align: center; padding: 12rem 0; }
+        .prenota__label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2rem; }
+        .prenota__title { font-size: clamp(2.2rem, 5vw, 4.5rem); font-weight: 300; color: var(--white); margin-bottom: 2rem; letter-spacing: 0.05em; }
+        .prenota__subtitle { font-size: 0.73rem; letter-spacing: 0.15em; color: var(--text-secondary); max-width: 420px; margin: 0 auto 1rem; line-height: 2; }
+        .prenota__instruction { font-size: 0.63rem; letter-spacing: 0.2em; color: var(--text-muted); margin-bottom: 4rem; }
+        .prenota__instruction strong { color: var(--text-secondary); font-weight: 500; }
+
+        .prenota__cta { display: inline-flex; align-items: center; gap: 1rem; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; border: 1px solid rgba(240, 237, 232, 0.4); padding: 1.2rem 3rem; transition: all 0.4s; }
+        .prenota__cta:hover { background: var(--white); color: var(--bg); border-color: var(--white); }
+
+        /* ==================== FOOTER ==================== */
+        .footer { background: var(--bg); border-top: 1px solid var(--border); padding: 3rem 5%; display: flex; align-items: center; justify-content: space-between; }
+        .footer__logo { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-secondary); }
+        .footer__copy { font-size: 0.58rem; letter-spacing: 0.15em; color: var(--text-muted); }
+        .footer__ig { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); transition: color 0.3s; }
+        .footer__ig:hover { color: var(--text); }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 900px) {
+            .nav__links, .nav__cta { display: none; }
+            .nav__hamburger { display: flex; }
+            .chi-sono__grid { grid-template-columns: 1fr; gap: 4rem; }
+            .chi-sono__image { max-width: 500px; margin: 0 auto; }
+            .trattamenti__grid { grid-template-columns: 1fr 1fr; }
+            .trattamento:nth-child(3n) { border-right: 1px solid var(--border); }
+            .trattamento:nth-child(2n) { border-right: none; }
+            .galleria__grid { grid-template-columns: 1fr 1fr; }
+            .testimonianze__grid { grid-template-columns: 1fr; }
+            .faceline__grid { grid-template-columns: 1fr; gap: 3rem; }
+            .footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+        }
+
+        @media (max-width: 600px) {
+            section { padding: 5rem 0; }
+            .trattamenti__grid { grid-template-columns: 1fr; }
+            .trattamento:nth-child(2n) { border-right: 1px solid var(--border); }
+            .trattamento { border-right: none; }
+            .galleria__grid { grid-template-columns: 1fr; }
+            .chi-sono__stats { grid-template-columns: 1fr; }
+            .nav__links { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="nav" id="nav">
+        <a href="#" class="nav__logo">Dr Petrenga</a>
+        <ul class="nav__links">
+            <li><a href="#chi-sono">Chi Sono</a></li>
+            <li><a href="#trattamenti">Trattamenti</a></li>
+            <li><a href="#galleria">Galleria</a></li>
+            <li><a href="#testimonianze">Testimonianze</a></li>
+        </ul>
+        <a href="https://ig.me/m/dr.petrenga" target="_blank" rel="noopener" class="nav__cta">Prenota</a>
+        <div class="nav__hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="nav__mobile" id="mobileMenu">
+        <span class="nav__mobile-close" id="mobileClose">✕</span>
+        <a href="#chi-sono" class="mobile-link">Chi Sono</a>
+        <a href="#trattamenti" class="mobile-link">Trattamenti</a>
+        <a href="#galleria" class="mobile-link">Galleria</a>
+        <a href="#testimonianze" class="mobile-link">Testimonianze</a>
+        <a href="https://ig.me/m/dr.petrenga" target="_blank" rel="noopener">Prenota</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <svg class="hero__face" viewBox="0 0 400 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0" y1="100" x2="400" y2="100" stroke="white" stroke-width="0.6" opacity="0.4"/>
+            <line x1="0" y1="178" x2="400" y2="178" stroke="white" stroke-width="0.6" opacity="0.4"/>
+            <line x1="0" y1="248" x2="400" y2="248" stroke="white" stroke-width="0.6" opacity="0.4"/>
+            <line x1="0" y1="320" x2="400" y2="320" stroke="white" stroke-width="0.6" opacity="0.4"/>
+            <line x1="0" y1="400" x2="400" y2="400" stroke="white" stroke-width="0.6" opacity="0.4"/>
+            <line x1="200" y1="30" x2="200" y2="490" stroke="white" stroke-width="0.6" opacity="0.4"/>
+            <line x1="125" y1="30" x2="125" y2="490" stroke="white" stroke-width="0.4" opacity="0.25"/>
+            <line x1="275" y1="30" x2="275" y2="490" stroke="white" stroke-width="0.4" opacity="0.25"/>
+            <circle cx="200" cy="248" r="138" stroke="white" stroke-width="0.4" opacity="0.25"/>
+            <path d="M200,55 C260,55 310,105 315,175 C320,245 300,320 278,368 C260,408 232,430 200,433 C168,430 140,408 122,368 C100,320 80,245 85,175 C90,105 140,55 200,55Z" stroke="white" stroke-width="1.2" opacity="0.3"/>
+            <path d="M168,428 C162,445 158,470 155,490" stroke="white" stroke-width="0.8" opacity="0.25"/>
+            <path d="M232,428 C238,445 242,470 245,490" stroke="white" stroke-width="0.8" opacity="0.25"/>
+            <path d="M140,182 C152,172 165,170 178,174 C183,176 185,180 183,183" stroke="white" stroke-width="1.8" opacity="0.35" stroke-linecap="round"/>
+            <path d="M260,182 C248,172 235,170 222,174 C217,176 215,180 217,183" stroke="white" stroke-width="1.8" opacity="0.35" stroke-linecap="round"/>
+            <path d="M140,204 C150,196 163,193 175,197 C187,201 190,208 185,212 C173,218 153,217 140,212 Z" stroke="white" stroke-width="0.9" opacity="0.3"/>
+            <circle cx="163" cy="204" r="7.5" stroke="white" stroke-width="0.9" opacity="0.25"/>
+            <path d="M260,204 C250,196 237,193 225,197 C213,201 210,208 215,212 C227,218 247,217 260,212 Z" stroke="white" stroke-width="0.9" opacity="0.3"/>
+            <circle cx="237" cy="204" r="7.5" stroke="white" stroke-width="0.9" opacity="0.25"/>
+            <path d="M200,225 C198,250 193,270 188,282 C183,290 183,295 200,296 C217,295 217,290 212,282 C207,270 202,250 200,225" stroke="white" stroke-width="0.7" opacity="0.25"/>
+            <path d="M176,328 C185,321 193,318 200,320 C207,318 215,321 224,328" stroke="white" stroke-width="0.9" opacity="0.3" stroke-linecap="round"/>
+            <path d="M176,328 C185,336 193,340 200,340 C207,340 215,336 224,328" stroke="white" stroke-width="0.9" opacity="0.3" stroke-linecap="round"/>
+        </svg>
+        <div class="hero__content">
+            <p class="hero__eyebrow">Medico Estetico · Aversa (CE)</p>
+            <h1 class="hero__title">DR PETRENGA</h1>
+            <div class="hero__line"></div>
+            <p class="hero__tagline">You Are Art</p>
+            <p class="hero__subtitle">Sculptor of Beauty · Medicina Estetica del Viso</p>
+            <a href="https://ig.me/m/dr.petrenga" target="_blank" rel="noopener" class="hero__cta">Prenota una Consulenza</a>
+        </div>
+        <div class="hero__scroll">
+            <div class="hero__scroll-line"></div>
+            <span>Scorri</span>
+        </div>
+    </section>
+
+    <!-- FILOSOFIA -->
+    <section class="filosofia">
+        <div class="container">
+            <span class="section-label fade-in">La nostra filosofia</span>
+            <p class="filosofia__quote fade-in fade-in-delay-1">"La bellezza non si inventa.<br>Si armonizza."</p>
+            <div class="divider divider--center fade-in fade-in-delay-2"></div>
+            <p class="filosofia__text fade-in fade-in-delay-2">Il claim "You Are Art" nasce dalla convinzione che ogni paziente sia già un'opera d'arte. Il ruolo del medico non è creare qualcosa di artificiale, ma rivelare e valorizzare l'armonia naturale che ogni individuo porta con sé. Niente distorsioni, solo armonia.</p>
+        </div>
+    </section>
+
+    <!-- FACELINE HARMONY -->
+    <section class="faceline">
+        <div class="container">
+            <div class="faceline__header fade-in">
+                <span class="faceline__label">Il Metodo</span>
+                <h2 class="faceline__title">FaceLine | Harmony</h2>
+                <p class="faceline__subtitle">Il Quadro</p>
+                <div class="divider divider--center"></div>
+                <p class="faceline__text">Prima di ogni trattamento, analizziamo il tuo viso secondo i principi della proporzione armoniosa. FaceLine Harmony è il protocollo esclusivo di Dr. Petrenga per mappare e valorizzare l'unicità di ogni volto.</p>
+            </div>
+            <div class="faceline__grid">
+                <div class="faceline__item fade-in">
+                    <svg class="faceline__svg" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="52" x2="200" y2="52" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="0" y1="88" x2="200" y2="88" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="0" y1="124" x2="200" y2="124" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="0" y1="162" x2="200" y2="162" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="0" y1="200" x2="200" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="100" y1="0" x2="100" y2="260" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <ellipse cx="100" cy="130" rx="60" ry="72" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                        <path d="M84,200 L80,240 M116,200 L120,240" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+                    </svg>
+                    <h3 class="faceline__name">La Tela</h3>
+                    <p class="faceline__desc">Vista frontale. L'analisi parte dalla proporzione classica del viso.</p>
+                </div>
+                <div class="faceline__item fade-in fade-in-delay-1">
+                    <svg class="faceline__svg" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="52" x2="200" y2="52" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="0" y1="124" x2="200" y2="124" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="0" y1="200" x2="200" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="100" y1="0" x2="100" y2="260" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <path d="M140,30 C150,35 155,50 150,70 C145,90 130,110 128,140 C128,170 135,200 145,230 C155,245 165,255 170,260" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                        <path d="M60,30 C50,50 45,80 50,130 C55,180 70,230 85,260" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                    </svg>
+                    <h3 class="faceline__name">La Linea</h3>
+                    <p class="faceline__desc">Profilo laterale. Rivela l'armonia del contorno naturale.</p>
+                </div>
+                <div class="faceline__item fade-in fade-in-delay-2">
+                    <svg class="faceline__svg" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="20" y1="65" x2="180" y2="65" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="15" y1="124" x2="185" y2="124" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="25" y1="200" x2="175" y2="200" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <line x1="100" y1="0" x2="100" y2="260" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        <path d="M100,40 C140,38 165,70 168,120 C170,160 150,200 125,235 C115,250 100,260 100,260" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                        <path d="M100,40 C65,38 40,75 35,130 C32,180 55,230 90,260" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                    </svg>
+                    <h3 class="faceline__name">La Prospettiva</h3>
+                    <p class="faceline__desc">Vista ¾. Completa l'analisi tridimensionale del viso.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHI SONO -->
+    <section class="chi-sono" id="chi-sono">
+        <div class="container">
+            <div class="chi-sono__grid">
+                <div class="chi-sono__image fade-in">
+                    <div class="chi-sono__image-placeholder">
+                        <span>Foto</span>
+                        <span>Dr. Petrenga</span>
+                    </div>
+                </div>
+                <div class="chi-sono__content fade-in fade-in-delay-2">
+                    <span class="section-label">Chi sono</span>
+                    <h2>Alessandro<br>Petrenga</h2>
+                    <h3>Medico Estetico</h3>
+                    <p class="chi-sono__text">Nato a Napoli nel 1997, mi sono laureato in Medicina e Chirurgia all'Università della Campania "Luigi Vanvitelli" in 5 anni e 6 mesi, mostrando fin da subito una marcata predisposizione verso la chirurgia e la medicina estetica.</p>
+                    <p class="chi-sono__text">Nel 2020 ho coniato il claim <strong>"You Are Art"</strong>: una filosofia che rifiuta la distorsione e promuove l'armonia del corpo e del viso. Dal 2022 esercito in modo indipendente nel mio studio ad Aversa, con un approccio rigoroso e personalizzato.</p>
+                    <p class="chi-sono__text">La mia formazione continua mi porta a collaborare con chirurghi plastici, specialisti e radiologi per offrire ai miei pazienti un approccio a 360°, preciso e sicuro.</p>
+                    <div class="chi-sono__stats">
+                        <div class="fade-in fade-in-delay-1">
+                            <div class="stat__number">2020</div>
+                            <div class="stat__label">Anno fondazione</div>
+                        </div>
+                        <div class="fade-in fade-in-delay-2">
+                            <div class="stat__number">500+</div>
+                            <div class="stat__label">Pazienti trattati</div>
+                        </div>
+                        <div class="fade-in fade-in-delay-3">
+                            <div class="stat__number">5★</div>
+                            <div class="stat__label">Valutazione media</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRATTAMENTI -->
+    <section class="trattamenti" id="trattamenti">
+        <div class="container">
+            <div class="trattamenti__header fade-in">
+                <span class="section-label">Medicina Estetica del Viso</span>
+                <h2>Trattamenti</h2>
+                <div class="divider"></div>
+                <p>Ogni trattamento è studiato per valorizzare i tuoi tratti naturali, restituendo armonia e freschezza senza eccessi.</p>
+            </div>
+            <div class="trattamenti__grid">
+                <div class="trattamento fade-in">
+                    <div class="trattamento__num">01</div>
+                    <h3 class="trattamento__name">Filler Labbra & Contorno</h3>
+                    <p class="trattamento__desc">Volumizzazione e definizione del profilo labiale con acido ialuronico. Risultati naturali, duraturi, completamente reversibili.</p>
+                </div>
+                <div class="trattamento fade-in fade-in-delay-1">
+                    <div class="trattamento__num">02</div>
+                    <h3 class="trattamento__name">Filler Zigomi & Guance</h3>
+                    <p class="trattamento__desc">Ripristino del volume e definizione del profilo facciale. Un trattamento chiave per un aspetto armonioso e giovanile.</p>
+                </div>
+                <div class="trattamento fade-in fade-in-delay-2">
+                    <div class="trattamento__num">03</div>
+                    <h3 class="trattamento__name">Tossina Botulinica</h3>
+                    <p class="trattamento__desc">Trattamento delle rughe d'espressione: fronte, glabella, zampe di gallina. Viso più disteso, espressione preservata.</p>
+                </div>
+                <div class="trattamento fade-in">
+                    <div class="trattamento__num">04</div>
+                    <h3 class="trattamento__name">Rinofiller</h3>
+                    <p class="trattamento__desc">Correzione non chirurgica del naso: regolarizzazione del profilo, rimodellamento della punta. Immediato, sicuro e reversibile.</p>
+                </div>
+                <div class="trattamento fade-in fade-in-delay-1">
+                    <div class="trattamento__num">05</div>
+                    <h3 class="trattamento__name">Biorivitalizzazione</h3>
+                    <p class="trattamento__desc">Microiniezioni di acido ialuronico puro per idratare in profondità, migliorare l'elasticità e restituire luminosità.</p>
+                </div>
+                <div class="trattamento fade-in fade-in-delay-2">
+                    <div class="trattamento__num">06</div>
+                    <h3 class="trattamento__name">Definizione Jawline</h3>
+                    <p class="trattamento__desc">Strutturazione del contorno mandibolare e del mento per un profilo definito, moderno e armonioso. L'estetica come scultura.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERIA -->
+    <section class="galleria" id="galleria">
+        <div class="container">
+            <div class="galleria__header fade-in">
+                <span class="section-label">Risultati reali</span>
+                <h2>Galleria</h2>
+            </div>
+            <div class="galleria__grid">
+                <div class="galleria__item fade-in">
+                    <span class="galleria__item-label">Prima / Dopo · Filler Labbra</span>
+                </div>
+                <div class="galleria__item fade-in fade-in-delay-1">
+                    <span class="galleria__item-label">Prima / Dopo · Filler Zigomi</span>
+                </div>
+                <div class="galleria__item fade-in fade-in-delay-2">
+                    <span class="galleria__item-label">Prima / Dopo · Rinofiller</span>
+                </div>
+                <div class="galleria__item fade-in fade-in-delay-1">
+                    <span class="galleria__item-label">Prima / Dopo · Botox</span>
+                </div>
+                <div class="galleria__item fade-in fade-in-delay-2">
+                    <span class="galleria__item-label">Prima / Dopo · Jawline</span>
+                </div>
+                <div class="galleria__item fade-in fade-in-delay-3">
+                    <span class="galleria__item-label">Prima / Dopo · Biorivitalizzazione</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIANZE -->
+    <section class="testimonianze" id="testimonianze">
+        <div class="container">
+            <div class="testimonianze__header fade-in">
+                <span class="section-label">Le voci dei pazienti</span>
+                <h2>Testimonianze</h2>
+            </div>
+            <div class="testimonianze__grid">
+                <div class="testimonianza fade-in">
+                    <div class="testimonianza__stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                    <p class="testimonianza__text">"Il dottor Petrenga ha un tocco unico. Il mio viso sembra finalmente armonioso, non 'rifatto'. Professionalità e discrezione al massimo livello."</p>
+                    <p class="testimonianza__author">— M. R., Aversa</p>
+                </div>
+                <div class="testimonianza fade-in fade-in-delay-1">
+                    <div class="testimonianza__stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                    <p class="testimonianza__text">"Ero molto titubante prima della consulenza, ma il dottore ha saputo capire esattamente cosa cercavo. Il risultato supera le aspettative."</p>
+                    <p class="testimonianza__author">— C. D., Napoli</p>
+                </div>
+                <div class="testimonianza fade-in fade-in-delay-2">
+                    <div class="testimonianza__stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                    <p class="testimonianza__text">"Competenza, attenzione al dettaglio e un approccio davvero su misura. Il rinofiller ha cambiato il mio profilo in modo sottile e perfetto."</p>
+                    <p class="testimonianza__author">— F. S., Caserta</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRENOTA -->
+    <section class="prenota" id="contatti">
+        <div class="container">
+            <span class="section-label fade-in">Inizia il tuo percorso</span>
+            <h2 class="prenota__title fade-in">Prenota una<br>Consulenza</h2>
+            <div class="divider divider--center fade-in"></div>
+            <p class="prenota__subtitle fade-in">Ogni percorso inizia da un ascolto. La consulenza è il momento per capire insieme cosa si può valorizzare.</p>
+            <p class="prenota__instruction fade-in">Scrivi <strong>INFO</strong> in DM su Instagram per prenotare la tua consulenza privata.</p>
+            <a href="https://ig.me/m/dr.petrenga" target="_blank" rel="noopener" class="prenota__cta fade-in">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <circle cx="17.5" cy="6.5" r="1.5"></circle>
+                </svg>
+                @dr.petrenga
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <span class="footer__logo">Dr Petrenga</span>
+        <span class="footer__copy">© 2026 Dr. Alessandro Petrenga. Tutti i diritti riservati.</span>
+        <a href="https://ig.me/m/dr.petrenga" target="_blank" rel="noopener" class="footer__ig">@dr.petrenga</a>
+    </footer>
+
+    <script>
+        // Navigation scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+
+        const closeMenu = () => {
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        };
+
+        mobileClose.addEventListener('click', closeMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+        // Scroll animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        fadeElements.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
